@@ -11,51 +11,53 @@ import ProductList from './components/ProductList';
 import Sales from './components/Sales';
 
 const App = () => {
-  const [userRole, setUserRole] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [userRole, setUserRole] = useState(null);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      setUserRole(user.role);
-    }
-    setLoading(false); // Ensure loading is handled after fetching the user role
-  }, []);
+  // useEffect(() => {
+  //   const user = JSON.parse(localStorage.getItem('user'));
+  //   if (user) {
+  //     setUserRole(user.role);
+  //   }
+  //   setLoading(false); // Ensure loading is handled after fetching the user role
+  // }, []);
 
   // Define routers
-  const adminRouter = createBrowserRouter([
-    {
-      path: '/',
-      element: <RootLayout />,
-      children: [
-        { path: '/', element: <ProductList /> },
-        { path: '/addcategories', element: <CategoriesAndSubPage /> },
-        { path: '/addproduct', element: <AddProduct /> },
-        { path: '/transfer', element: <Transfer /> },
-        {path: '/sales', element: <Sales/>}
-      ],
-    },
-  ]);
+  // const adminRouter = createBrowserRouter([
+  //   {
+  //     path: '/',
+  //     element: <RootLayout />,
+  //     children: [
+  //       { path: '/', element: <ProductList /> },
+  //       { path: '/addcategories', element: <CategoriesAndSubPage /> },
+  //       { path: '/addproduct', element: <AddProduct /> },
+  //       { path: '/transfer', element: <Transfer /> },
+  //       {path: '/sales', element: <Sales/>}
+  //     ],
+  //   },
+  // ]);
 
-  const staffRouter = createBrowserRouter([
-    {
-      path: '/',
-      element: <Home />,
-    },
-  ]);
+  // const staffRouter = createBrowserRouter([
+  //   {
+  //     path: '/',
+  //     element: <Home />,
+  //   },
+  // ]);
 
-  if (loading) {
-    return <div>Loading...</div>; // Add a loading state
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>; // Add a loading state
+  // }
 
   // Conditional rendering based on user role
   return (
     <>
-      {userRole === null ? (
+      {/* {userRole === null ? (
         <Login /> // Render Login if no userRole is set
       ) : (
         <RouterProvider router={userRole === 'admin' ? adminRouter : staffRouter} />
-      )}
+      )} */}
+
+      <Home/>
     </>
   );
 };
