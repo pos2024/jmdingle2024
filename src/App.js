@@ -1,6 +1,5 @@
-// src/App.js
 import React, { useEffect, useState } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import RootLayout from './pages/Root';
 import CategoriesAndSubPage from './pages/CategoriesAndSubPage';
@@ -19,42 +18,35 @@ const App = () => {
     if (user) {
       setUserRole(user.role);
     }
-    setLoading(false); // Ensure loading is handled after fetching the user role
+    setLoading(false);
   }, []);
 
-  // Define routers
-  const adminRouter = createBrowserRouter([
-    {
-      path: '/',
-      element: <RootLayout />,
-      children: [
-        { path: '/', element: <ProductList /> },
-        { path: '/addcategories', element: <CategoriesAndSubPage /> },
-        { path: '/addproduct', element: <AddProduct /> },
-        { path: '/transfer', element: <Transfer /> },
-        {path: '/sales', element: <Sales/>}
-      ],
-    },
-  ]);
-
-  const staffRouter = createBrowserRouter([
-    {
-      path: '/',
-      element: <Home />,
-    },
-  ]);
-
   if (loading) {
-    return <div>Loading...</div>; // Add a loading state
+    return <div>Loading...</div>;
   }
 
-  // Conditional rendering based on user role
   return (
     <>
       {userRole === null ? (
-        <Login /> // Render Login if no userRole is set
+        <Login />
       ) : (
-        <RouterProvider router={userRole === 'admin' ? adminRouter : staffRouter} />
+        <Router>
+          {userRole === 'admin' ? (
+            <Routes>
+              <Route path="/" element={<RootLayout />}>
+                <Route path="/" element={<ProductList />} />
+                <Route path="/addcategories" element={<CategoriesAndSubPage />} />
+                <Route path="/addproduct" element={<AddProduct />} />
+                <Route path="/transfer" element={<Transfer />} />
+                <Route path="/sales" element={<Sales />} />
+              </Route>
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path="/" element={<Home />} />
+            </Routes>
+          )}
+        </Router>
       )}
     </>
   );
