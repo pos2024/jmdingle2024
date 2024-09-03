@@ -1,25 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useEffect, useState } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Login from './components/Login';
+import RootLayout from './pages/Root';
+import CategoriesAndSubPage from './pages/CategoriesAndSubPage';
+import Home from './pages/Home';
+import AddProduct from './components/AddProduct';
+import Transfer from './components/Transfer';
+import ProductList from './components/ProductList';
+import Sales from './components/Sales';
 
-function App() {
+const App = () => {
+  const [userRole, setUserRole] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setUserRole(user.role);
+    }
+    setLoading(false); // Ensure loading is handled after fetching the user role
+  }, []);
+
+  // Define routers
+  const adminRouter = createBrowserRouter([
+    {
+      path: '/',
+      element: <RootLayout />,
+      children: [
+        { path: '/', element: <ProductList /> },
+        { path: '/addcategories', element: <CategoriesAndSubPage /> },
+        { path: '/addproduct', element: <AddProduct /> },
+        { path: '/transfer', element: <Transfer /> },
+        {path: '/sales', element: <Sales/>}
+      ],
+    },
+  ]);
+
+  const staffRouter = createBrowserRouter([
+    {
+      path: '/',
+      element: <Home />,
+    },
+  ]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Add a loading state
+  }
+
+  // Conditional rendering based on user role
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {userRole === null ? (
+        <Login /> // Render Login if no userRole is set
+      ) : (
+        <RouterProvider router={userRole === 'admin' ? adminRouter : staffRouter} />
+      )}
+    </>
   );
-}
+};
 
 export default App;
