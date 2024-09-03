@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom'; // Use HashRouter
 import Login from './components/Login';
 import RootLayout from './pages/Root';
 import CategoriesAndSubPage from './pages/CategoriesAndSubPage';
@@ -21,6 +21,28 @@ const App = () => {
     setLoading(false);
   }, []);
 
+  // Define routers
+  const adminRouter = createHashRouter([
+    {
+      path: '/',
+      element: <RootLayout />,
+      children: [
+        { path: '/', element: <ProductList /> },
+        { path: '/addcategories', element: <CategoriesAndSubPage /> },
+        { path: '/addproduct', element: <AddProduct /> },
+        { path: '/transfer', element: <Transfer /> },
+        { path: '/sales', element: <Sales /> }
+      ],
+    },
+  ]);
+
+  const staffRouter = createHashRouter([
+    {
+      path: '/',
+      element: <Home />,
+    },
+  ]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -30,23 +52,7 @@ const App = () => {
       {userRole === null ? (
         <Login />
       ) : (
-        <Router>
-          {userRole === 'admin' ? (
-            <Routes>
-              <Route path="/" element={<RootLayout />}>
-                <Route path="/" element={<ProductList />} />
-                <Route path="/addcategories" element={<CategoriesAndSubPage />} />
-                <Route path="/addproduct" element={<AddProduct />} />
-                <Route path="/transfer" element={<Transfer />} />
-                <Route path="/sales" element={<Sales />} />
-              </Route>
-            </Routes>
-          ) : (
-            <Routes>
-              <Route path="/" element={<Home />} />
-            </Routes>
-          )}
-        </Router>
+        <RouterProvider router={userRole === 'admin' ? adminRouter : staffRouter} />
       )}
     </>
   );
