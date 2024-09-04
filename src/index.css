@@ -1,3 +1,9 @@
+/* styles.css or main.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom styles */
+input, textarea {
+  font-size: 16px; /* Ensures a default font size that avoids zoom on focus */
+}
