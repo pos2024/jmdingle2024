@@ -33,8 +33,8 @@ const NoBarcodeItems = ({ addToCart }) => {
   }, []);
 
   return (
-    <div className='bg-gray-200 h-screen w-full p-4' style={firstBackground}>
-      <h2 className='text-xl text-[#623288] font-bold mb-4'>No Barcode Items</h2>
+    <div className='bg-green-200 h-auto w-full sm:h-auto p-4' style={firstBackground}>
+      <h2 className='text-xl text-[#623288] font-bold mb-4'>NoBarcodeItems</h2>
       <div className='grid grid-cols-4 gap-2'>
         {items.length === 0 ? (
           <p>No items found.</p>
