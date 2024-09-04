@@ -199,7 +199,7 @@ const Cart = ({ cartItems, setCartItems }) => {
   };
 
   return (
-    <div className='bg-gradient-to-r from-[#623288] to-[#4B0082] flex flex-col justify-between h-screen w-full sm:w-2/5 p-4'>
+    <div className='bg-gradient-to-r from-[#623288] to-[#4B0082] flex flex-col justify-between h-screen w-full sm:h-auto sm:w-2/5 p-4'>
       <div>
         <div className="mb-2">
           <label className="block text-white mb-2">Item Code:</label>
@@ -265,7 +265,7 @@ const Cart = ({ cartItems, setCartItems }) => {
         </div>
       </div>
 
-      <div className='bg-[#1d1d1d] p-2 rounded-md mt-4'>
+      <div className='bg-[#1d1d1d]  p-2 rounded-md mt-4'>
         <div className="text-white">
           <h2 className="text-xl font-bold">Total: ₱{total.toFixed(2)}</h2>
           <div className='flex flex-col sm:flex-row items-center justify-between mt-2'>
