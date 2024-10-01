@@ -10,7 +10,10 @@ const UpdateProductForm = ({ product, onSave }) => {
     quantity: '',
     sellingPrice: '',
     wholesalePrice: '',
+    otherPrice: '', // New field
+    otherQuantity: '', // New field
     quantitiesButton: 0, // Initialize as a number
+    NoBarcodeItems: false, // New field, checkbox for no-barcode items
   });
 
   useEffect(() => {
@@ -22,16 +25,19 @@ const UpdateProductForm = ({ product, onSave }) => {
         quantity: product.quantity,
         sellingPrice: product.sellingPrice,
         wholesalePrice: product.wholesalePrice,
+        otherPrice: product.otherPrice || '', // New field
+        otherQuantity: product.otherQuantity || '', // New field
         quantitiesButton: product.quantitiesButton || 0, // Ensure it's initialized as a number
+        NoBarcodeItems: product.NoBarcodeItems || false, // New field
       });
     }
   }, [product]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: name === 'quantitiesButton' ? Number(value) : value, // Convert to number if it's the quantitiesButton field
+      [name]: type === 'checkbox' ? checked : name === 'quantitiesButton' ? Number(value) : value, // Handle checkbox and number fields
     });
   };
 
@@ -122,6 +128,26 @@ const UpdateProductForm = ({ product, onSave }) => {
         />
       </div>
       <div>
+        <label className="block text-sm font-medium text-gray-700">Other Price</label>
+        <input 
+          type="number" 
+          name="otherPrice" 
+          value={formData.otherPrice} 
+          onChange={handleChange} 
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Other Quantity</label>
+        <input 
+          type="number" 
+          name="otherQuantity" 
+          value={formData.otherQuantity} 
+          onChange={handleChange} 
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+      <div>
         <label className="block text-sm font-medium text-gray-700">Quantities Button</label>
         <input 
           type="number" 
@@ -129,6 +155,16 @@ const UpdateProductForm = ({ product, onSave }) => {
           value={formData.quantitiesButton} 
           onChange={handleChange} 
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700">No Barcode Item</label>
+        <input 
+          type="checkbox" 
+          name="NoBarcodeItems" 
+          checked={formData.NoBarcodeItems} 
+          onChange={handleChange} 
+          className="mt-1 block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         />
       </div>
       <div className="sm:col-span-2 flex justify-end">

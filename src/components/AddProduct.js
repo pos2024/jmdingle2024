@@ -5,14 +5,17 @@ import { addDoc, getDocs, collection } from "firebase/firestore";
 const AddProduct = () => {
   const [productName, setProductName] = useState('');
   const [categoryID, setCategoryID] = useState('');
+  const [categoryChildID, setCategoryChildID] = useState('');
   const [quantity, setQuantity] = useState('');
   const [wholesalePrice, setWholesalePrice] = useState('');
   const [sellingPrice, setSellingPrice] = useState('');
   const [barcode, setBarcode] = useState('');
   const [NoBarcodeItems, setNoBarcodeItems] = useState(false); // New state for NoBarcodeItems
+  const [otherPrice, setOtherPrice] = useState('');
+  const [otherQuantity, setOtherQuantity] = useState('');
+  const [quantitiesButton, setQuantitiesButton] = useState('');
   const [categories, setCategories] = useState([]);
   const [categoryChildren, setCategoryChildren] = useState([]);
-  const [categoryChildID, setCategoryChildID] = useState('');
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -65,13 +68,16 @@ const AddProduct = () => {
       // Add product to Firestore
       const docRef = await addDoc(collection(db, 'products'), {
         name: productName,
-        categoryID: categoryID,
-        categoryChildID: categoryChildID,
-        sellingPrice: parseFloat(sellingPrice),
-        quantity: parseInt(quantity),
-        wholesalePrice: parseFloat(wholesalePrice),
+        categoryID: categoryID, // Parse as number
+        categoryChildID: categoryChildID, // Parse as number
+        sellingPrice: parseFloat(sellingPrice), // Parse as float
+        quantity: parseInt(quantity), // Parse as number
+        wholesalePrice: parseFloat(wholesalePrice), // Parse as float
         barcode: barcode,
-        NoBarcodeItems: NoBarcodeItems // Include NoBarcodeItems in the product data
+        NoBarcodeItems: NoBarcodeItems, // Include NoBarcodeItems in the product data
+        otherPrice: parseFloat(otherPrice), // Parse as float
+        otherQuantity: parseInt(otherQuantity), // Parse as number
+        quantitiesButton: parseInt(quantitiesButton) // Parse as number
       });
 
       console.log('Product added with ID: ', docRef.id);
@@ -85,6 +91,9 @@ const AddProduct = () => {
       setWholesalePrice('');
       setBarcode('');
       setNoBarcodeItems(false); // Reset NoBarcodeItems field
+      setOtherPrice('');
+      setOtherQuantity('');
+      setQuantitiesButton('');
     } catch (error) {
       console.error('Error adding product: ', error);
     }
@@ -166,17 +175,49 @@ const AddProduct = () => {
             className="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:border-blue-500"
           />
         </div>
-        <div className="mb-4 flex items-center">
+        <div className="mb-4">
+          <label htmlFor="otherPrice" className="block text-gray-700 font-bold mb-2">Other Price:</label>
+          <input
+            type="number"
+            id="otherPrice"
+            value={otherPrice}
+            onChange={(e) => setOtherPrice(e.target.value)}
+            className="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="otherQuantity" className="block text-gray-700 font-bold mb-2">Other Quantity:</label>
+          <input
+            type="number"
+            id="otherQuantity"
+            value={otherQuantity}
+            onChange={(e) => setOtherQuantity(e.target.value)}
+            className="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="quantitiesButton" className="block text-gray-700 font-bold mb-2">Quantities Button:</label>
+          <input
+            type="number"
+            id="quantitiesButton"
+            value={quantitiesButton}
+            onChange={(e) => setQuantitiesButton(e.target.value)}
+            className="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="noBarcodeItems" className="block text-gray-700 font-bold mb-2">No Barcode Item:</label>
           <input
             type="checkbox"
-            id="NoBarcodeItems"
+            id="noBarcodeItems"
             checked={NoBarcodeItems}
             onChange={handleNoBarcodeItemsChange}
-            className="mr-2"
+            className="border border-gray-400 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500"
           />
-          <label htmlFor="NoBarcodeItems" className="text-gray-700">No Barcode Items</label>
         </div>
-        <button type="submit" className="col-span-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Product</button>
+        <div className="mb-4">
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Add Product</button>
+        </div>
       </form>
     </div>
   );

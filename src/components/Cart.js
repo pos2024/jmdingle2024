@@ -251,7 +251,7 @@ const Cart = ({ cartItems, setCartItems }) => {
                     +
                   </button>
                 </div>
-                <span className="flex-grow px-2 text-center sm:text-left">{item.name}</span>
+                <span className="flex-grow px-2 text-xs text-center sm:text-left">{item.name}</span>
                 <span className="px-2">₱{item.price.toFixed(2)}</span>
                 <button
                   onClick={() => removeItemFromCart(item.id, item.name)}

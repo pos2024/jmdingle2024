@@ -23,6 +23,9 @@ const MainNavigation = () => {
         <Link to="/sales" className="text-black text-lg  px-4  hover:bg-gray-200 transition duration-300 ease-in-out">
          Sales Report
         </Link>
+        <Link to="/cigarettelist" className="text-black text-lg  px-4  hover:bg-gray-200 transition duration-300 ease-in-out">
+         Cigarette List
+        </Link>
         {/* Add more links as needed */}
       </div>
     </div>

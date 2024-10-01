@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createHashRouter, RouterProvider } from 'react-router-dom'; // Use HashRouter
+import { createHashRouter, RouterProvider } from 'react-router-dom'; 
 import Login from './components/Login';
 import RootLayout from './pages/Root';
 import CategoriesAndSubPage from './pages/CategoriesAndSubPage';
@@ -8,6 +8,7 @@ import AddProduct from './components/AddProduct';
 import Transfer from './components/Transfer';
 import ProductList from './components/ProductList';
 import Sales from './components/Sales';
+import CigaretteList from './components/CigaretteList'
 
 const App = () => {
   const [userRole, setUserRole] = useState(null);
@@ -21,7 +22,7 @@ const App = () => {
     setLoading(false);
   }, []);
 
-  // Define routers
+  
   const adminRouter = createHashRouter([
     {
       path: '/',
@@ -31,7 +32,8 @@ const App = () => {
         { path: '/addcategories', element: <CategoriesAndSubPage /> },
         { path: '/addproduct', element: <AddProduct /> },
         { path: '/transfer', element: <Transfer /> },
-        { path: '/sales', element: <Sales /> }
+        { path: '/sales', element: <Sales /> },
+        {path: '/cigarettelist', element: <CigaretteList/>}
       ],
     },
   ]);

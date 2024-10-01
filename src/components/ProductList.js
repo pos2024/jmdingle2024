@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import db from "../firebase";
-import { onSnapshot, collection } from "firebase/firestore";
+import { onSnapshot, collection, doc, deleteDoc }  from "firebase/firestore";
 import Table from './Table';
 import Modal from '../pages/Modal';
 import AddProduct from './AddProduct';
@@ -44,11 +44,14 @@ const ProductList = () => {
     setIsUpdateModalOpen(true);
   };
 
-  const handleDelete = (id) => {
-    console.log("Delete product with ID:", id);
-    // Implement your delete logic here
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, "products", id)); // Delete the product from Firestore
+      console.log("Product deleted with ID:", id);
+    } catch (error) {
+      console.error("Error deleting product: ", error);
+    }
   };
-
   const handleSaveUpdate = () => {
     setIsUpdateModalOpen(false);
     setSelectedProduct(null);

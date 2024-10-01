@@ -9,7 +9,7 @@ const Sales = () => {
   const [profit, setProfit] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [productsMap, setProductsMap] = useState({});
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchSalesAndProducts = async () => {
@@ -28,25 +28,12 @@ const Sales = () => {
         const productsData = productsSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
+          wholesalePrice: Number(doc.data().wholesalePrice) || 0 // Ensure it's a number
         }));
+        setProducts(productsData);
 
-        // Map products by barcode
-        const productsMap = {};
-        productsData.forEach(product => {
-          if (product.barcode) {
-            productsMap[product.barcode] = product;
-          }
-        });
-        setProductsMap(productsMap);
-
-        // Log products map to verify
-        console.log('Products Map:', productsMap);
-
-        // Function to find barcode by product name
-        const getBarcodeByName = (name) => {
-          const product = productsData.find(p => p.name === name);
-          return product ? product.barcode : null;
-        };
+        // Log products data to verify
+        console.log('Fetched Products Data:', productsData);
 
         // Initialize totals
         let sellingPriceSum = 0;
@@ -58,22 +45,16 @@ const Sales = () => {
             for (const item of sale.items) {
               const itemPrice = parseFloat(item.price) || 0;
               const itemQuantity = parseInt(item.quantity) || 0;
-              const itemName = item.name || 'undefined'; // Ensure item.name is available
+              const itemBarcode = item.barcode || 'undefined'; // Ensure item.barcode is available
 
               // Debug logging for item
               console.log('Processing Item:', item);
               console.log('Item Price:', itemPrice);
               console.log('Item Quantity:', itemQuantity);
-              console.log('Item Name:', itemName);
-
-              // Get barcode from name
-              const itemBarcode = getBarcodeByName(itemName);
-
-              // Debug logging to check if barcode is found
               console.log('Item Barcode:', itemBarcode);
 
               // Find product based on item barcode
-              const product = itemBarcode ? productsMap[itemBarcode] : null;
+              const product = productsData.find(p => p.barcode === itemBarcode);
 
               // Debug logging to check if product is found and has correct wholesalePrice
               if (product) {
