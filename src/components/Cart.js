@@ -67,13 +67,25 @@ const Cart = ({ cartItems, setCartItems }) => {
     }
   };
 
-  // Handle scan event
-  const handleScan = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      document.getElementById('add-to-cart-button').click(); // Simulate button click
-    }
-  };
+ // Handle when 'Enter' is pressed (useful for most scanners)
+const handleScan = (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    addToCart(itemCode, quantity); // Automatically add to cart on 'Enter' key
+  }
+};
+
+// Handle input change (useful for mobile or cases where no 'Enter' key is sent)
+const expectedBarcodeLength = 13;
+const handleInputChange = (e) => {
+  const newCode = e.target.value;
+  setItemCode(newCode);
+
+  // Optionally detect if a scan has completed based on input pattern or length
+  if (newCode.length === expectedBarcodeLength) {
+    addToCart(newCode, quantity); // Automatically add to cart when full scan is detected
+  }
+};
   
 
   // Handle click on "Add to Cart" button
@@ -206,11 +218,11 @@ const Cart = ({ cartItems, setCartItems }) => {
         <div className="mb-2">
           <label className="block text-white mb-2">Item Code:</label>
           <input
-            type="text"
-            value={itemCode}
-            onChange={(e) => setItemCode(e.target.value)}
-            onKeyDown={handleScan}
-            className="border border-gray-400 rounded-md p-1 w-full"
+           type="text"
+           value={itemCode}
+           onChange={handleInputChange} // Handle input change for both tablet and computer
+           onKeyDown={handleScan} // Handle 'Enter' key for computer and tablet
+           className="border border-gray-400 rounded-md p-1 w-full"
             ref={itemCodeRef} // Attach ref here
           />
         </div>
