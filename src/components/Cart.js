@@ -12,7 +12,7 @@ const Cart = ({ cartItems, setCartItems }) => {
   const itemCodeRef = useRef(null); // Reference to the item code input field
 
   // Use custom hook to focus on item code input field
-  useFocus(itemCodeRef, [cartItems,  quantity, cash]);
+  useFocus(itemCodeRef, [cartItems, cash]);
 
   // Function to add items to the cart
   const addToCart = async (code, qty) => {
