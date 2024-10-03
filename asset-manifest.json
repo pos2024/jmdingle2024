@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/jmdingle2024/static/css/main.d0aff009.css",
-    "main.js": "/jmdingle2024/static/js/main.6237a460.js",
+    "main.js": "/jmdingle2024/static/js/main.67e62a58.js",
     "static/media/back2.png": "/jmdingle2024/static/media/back2.152677e34a2b37e1057f.png",
     "index.html": "/jmdingle2024/index.html",
     "main.d0aff009.css.map": "/jmdingle2024/static/css/main.d0aff009.css.map",
-    "main.6237a460.js.map": "/jmdingle2024/static/js/main.6237a460.js.map"
+    "main.67e62a58.js.map": "/jmdingle2024/static/js/main.67e62a58.js.map"
   },
   "entrypoints": [
     "static/css/main.d0aff009.css",
-    "static/js/main.6237a460.js"
+    "static/js/main.67e62a58.js"
   ]
 }
