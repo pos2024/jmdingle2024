@@ -12,7 +12,7 @@ const Cart = ({ cartItems, setCartItems }) => {
   const itemCodeRef = useRef(null); // Reference to the item code input field
 
   // Use custom hook to focus on item code input field
-  useFocus(itemCodeRef, [cartItems, cash]);
+  useFocus(itemCodeRef, [cartItems, itemCode, quantity, cash]);
 
   // Function to add items to the cart
   const addToCart = async (code, qty) => {
@@ -70,9 +70,11 @@ const Cart = ({ cartItems, setCartItems }) => {
   // Handle scan event
   const handleScan = (e) => {
     if (e.key === 'Enter') {
-      addToCart(itemCode, quantity);
+      e.preventDefault();
+      document.getElementById('add-to-cart-button').click(); // Simulate button click
     }
   };
+  
 
   // Handle click on "Add to Cart" button
   const handleAddToCartClick = () => {
@@ -223,6 +225,7 @@ const Cart = ({ cartItems, setCartItems }) => {
           />
         </div>
         <button
+          id="add-to-cart-button"
           onClick={handleAddToCartClick}
           className="bg-white text-[#623288] font-bold py-2 px-4 rounded w-full"
         >
