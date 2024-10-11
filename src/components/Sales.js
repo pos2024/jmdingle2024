@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-import db from '../firebase'; // Adjust the import path as necessary
-
+import db from '../firebase'; 
 const Sales = () => {
   const [sales, setSales] = useState([]);
   const [totalSellingPrice, setTotalSellingPrice] = useState(0);
@@ -30,7 +29,7 @@ const Sales = () => {
           ...doc.data(),
         }));
 
-        // Map products by barcode
+       
         const productsMap = {};
         productsData.forEach(product => {
           if (product.barcode) {
@@ -39,10 +38,10 @@ const Sales = () => {
         });
         setProductsMap(productsMap);
 
-        // Log products map to verify
+    
         console.log('Products Map:', productsMap);
 
-        // Function to find barcode by product name
+       
         const getBarcodeByName = (name) => {
           const product = productsData.find(p => p.name === name);
           return product ? product.barcode : null;
@@ -66,16 +65,16 @@ const Sales = () => {
               console.log('Item Quantity:', itemQuantity);
               console.log('Item Name:', itemName);
 
-              // Get barcode from name
+           
               const itemBarcode = getBarcodeByName(itemName);
 
-              // Debug logging to check if barcode is found
+          
               console.log('Item Barcode:', itemBarcode);
 
-              // Find product based on item barcode
+             
               const product = itemBarcode ? productsMap[itemBarcode] : null;
 
-              // Debug logging to check if product is found and has correct wholesalePrice
+             
               if (product) {
                 console.log('Product Found:', product);
                 console.log('Product Barcode:', product.barcode);
@@ -93,7 +92,7 @@ const Sales = () => {
               console.log('Item Quantity:', itemQuantity);
 
               // Calculate totals
-              sellingPriceSum += itemPrice; // Total selling price
+              sellingPriceSum += itemPrice; 
               wholesalePriceSum += itemWholesalePrice * itemQuantity; // Total wholesale price
             }
           } else {
@@ -112,9 +111,9 @@ const Sales = () => {
     };
 
     fetchSalesAndProducts();
-  }, []); // No dependencies, run once
+  }, []); 
 
-  // Pagination logic
+ 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentSales = sales.slice(indexOfFirstItem, indexOfLastItem);
@@ -165,7 +164,7 @@ const Sales = () => {
         </table>
       </div>
 
-      {/* Pagination controls */}
+      {/* Pagination */}
       <div className="flex justify-center mt-4">
         {[...Array(totalPages).keys()].map(page => (
           <button

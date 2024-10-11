@@ -10,7 +10,7 @@ const AddProduct = () => {
   const [wholesalePrice, setWholesalePrice] = useState('');
   const [sellingPrice, setSellingPrice] = useState('');
   const [barcode, setBarcode] = useState('');
-  const [NoBarcodeItems, setNoBarcodeItems] = useState(false); // New state for NoBarcodeItems
+  const [NoBarcodeItems, setNoBarcodeItems] = useState(false);
   const [otherPrice, setOtherPrice] = useState('');
   const [otherQuantity, setOtherQuantity] = useState('');
   const [quantitiesButton, setQuantitiesButton] = useState('');
@@ -38,6 +38,7 @@ const AddProduct = () => {
   const handleCategoryChange = async (e) => {
     const selectedCategoryID = e.target.value;
     setCategoryID(selectedCategoryID);
+    setCategoryChildID('');
 
     try {
       const childrenRef = collection(db, "categories", selectedCategoryID, "children");
@@ -64,20 +65,23 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Find the selected subcategory name
+    const selectedSubcategory = categoryChildren.find(child => child.id === categoryChildID);
+    const subcategoryName = selectedSubcategory ? selectedSubcategory.name : '';
+
     try {
-      // Add product to Firestore
       const docRef = await addDoc(collection(db, 'products'), {
         name: productName,
-        categoryID: categoryID, // Parse as number
-        categoryChildID: categoryChildID, // Parse as number
-        sellingPrice: parseFloat(sellingPrice), // Parse as float
-        quantity: parseInt(quantity), // Parse as number
-        wholesalePrice: parseFloat(wholesalePrice), // Parse as float
+        categoryID: categoryID,
+        categoryChildID: subcategoryName, // Save the subcategory name instead of ID
+        sellingPrice: parseFloat(sellingPrice),
+        quantity: parseInt(quantity),
+        wholesalePrice: parseFloat(wholesalePrice),
         barcode: barcode,
-        NoBarcodeItems: NoBarcodeItems, // Include NoBarcodeItems in the product data
-        otherPrice: parseFloat(otherPrice), // Parse as float
-        otherQuantity: parseInt(otherQuantity), // Parse as number
-        quantitiesButton: parseInt(quantitiesButton) // Parse as number
+        NoBarcodeItems: NoBarcodeItems,
+        otherPrice: parseFloat(otherPrice),
+        otherQuantity: parseInt(otherQuantity),
+        quantitiesButton: parseInt(quantitiesButton)
       });
 
       console.log('Product added with ID: ', docRef.id);
@@ -90,7 +94,7 @@ const AddProduct = () => {
       setQuantity('');
       setWholesalePrice('');
       setBarcode('');
-      setNoBarcodeItems(false); // Reset NoBarcodeItems field
+      setNoBarcodeItems(false);
       setOtherPrice('');
       setOtherQuantity('');
       setQuantitiesButton('');
@@ -116,7 +120,13 @@ const AddProduct = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="category" className="block text-gray-700 font-bold mb-2">Category:</label>
-          <select id="category" value={categoryID} onChange={handleCategoryChange} className="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:border-blue-500" required>
+          <select
+            id="category"
+            value={categoryID}
+            onChange={handleCategoryChange}
+            className="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+            required
+          >
             <option value="">Select Category</option>
             {categories.map(category => (
               <option key={category.id} value={category.id}>{category.name}</option>
@@ -125,7 +135,13 @@ const AddProduct = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="categoryChild" className="block text-gray-700 font-bold mb-2">Sub Categories:</label>
-          <select id="categoryChild" value={categoryChildID} onChange={handleCategoryChildChange} className="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:border-blue-500" required>
+          <select
+            id="categoryChild"
+            value={categoryChildID}
+            onChange={handleCategoryChildChange}
+            className="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+            required
+          >
             <option value="">Select SubCategories</option>
             {categoryChildren.map(child => (
               <option key={child.id} value={child.id}>{child.name}</option>

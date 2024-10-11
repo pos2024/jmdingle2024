@@ -26,6 +26,9 @@ const MainNavigation = () => {
         <Link to="/cigarettelist" className="text-black text-lg  px-4  hover:bg-gray-200 transition duration-300 ease-in-out">
          Cigarette List
         </Link>
+        <Link to="/backup" className="text-black text-lg  px-4  hover:bg-gray-200 transition duration-300 ease-in-out">
+        Backup Product
+        </Link>
         {/* Add more links as needed */}
       </div>
     </div>

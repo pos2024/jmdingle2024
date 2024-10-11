@@ -9,6 +9,9 @@ import Transfer from './components/Transfer';
 import ProductList from './components/ProductList';
 import Sales from './components/Sales';
 import CigaretteList from './components/CigaretteList'
+import BackupProducts from './components/BackupProducts';
+
+
 
 const App = () => {
   const [userRole, setUserRole] = useState(null);
@@ -33,7 +36,8 @@ const App = () => {
         { path: '/addproduct', element: <AddProduct /> },
         { path: '/transfer', element: <Transfer /> },
         { path: '/sales', element: <Sales /> },
-        {path: '/cigarettelist', element: <CigaretteList/>}
+        {path: '/cigarettelist', element: <CigaretteList/>},
+        {path: '/backup', element: <BackupProducts/>}
       ],
     },
   ]);
